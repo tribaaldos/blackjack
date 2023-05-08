@@ -1,22 +1,61 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    background-color: green;
+    background: radial-gradient(green, black);
+    background-size: cover;
+    display: grid;
+} 
+/* -------CARDS LIBRARY ------- */
+.card-container, .dealer-cards, .your-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    border: 4px dotted grey;
+    padding: 10px;
+  
+}
+.dealer-cards {
+    background-color: grey; 
+    text-align: center;
+    
+}
+.player-cards {
+    background-color: blue;
+}
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 16px;
+    color: grey;
+    border: 1px solid grey;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  button:hover {
+    background-color: grey;
+    color: white;
+  }
+/* ---------------------------- */
+h1 {
+    color: red;
+    font-size: 85px;
 }
 
 #dealer-cards img {
-    height: 350px;
-    width: 225px;
+    height: 80px;
+    width: 60px;
     margin: 1px;
 }
 
 #your-cards img {
-    height: 350px;
-    width: 225px;
+    height: 80px;
+    width: 60px;
     margin: 1px;
 }
-
-#hit {
+/*------------BUTTONS -------------*/
+ #hit {
     width: 100px;
     height: 50px;
     font-size: 20px;
@@ -26,4 +65,71 @@ body {
     width: 100px;
     height: 50px;
     font-size: 20px;
+}
+#double {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+}
+#divide {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+}
+
+
+.moneda1{
+    border-radius: 160%;
+    height: 5vmin;  
+    margin-bottom: 100px; 
+    
+}
+.moneda2{
+    border-radius: 160%;
+    height: 5vmin;   
+    margin-bottom: 80px; 
+}
+.moneda3{
+    border-radius: 160%;
+    height: 5vmin;   
+    margin-bottom: 60px; 
+}
+.moneda4{
+    border-radius: 160%;
+    height: 5vmin;   
+    margin-bottom: 40px; 
+}
+.moneda5{
+    border-radius: 160%;
+    height: 5vmin;   
+    margin-bottom: 20px; 
+}
+.moneda6{
+    border-radius: 160%;
+    height: 5vmin;   
+    margin-bottom: 0px; 
+}
+.monedas{
+    text-align: left;
+    padding-bottom: 100px;
+
+}
+#buttons 
+#hit {
+    border-radius: 50%;
+    height: 50
+}
+#stay {
+    border-radius: 50%;
+}
+#divide {
+    border-radius: 50%;
+
+}
+#double {
+    border-radius: 50%;
+
+}
+#bet {
+    border-radius: 50px;
 }
