@@ -44,16 +44,16 @@ h1 {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#dealer-cards img {
-    height: 80px;
-    width: 60px;
+.dealer-cards img {
+    height: 160px;
+    width: 120px;
     margin: 1px;
     text-align: center;
 }
 
-#your-cards img {
-    height: 80px;
-    width: 60px;
+.player-cards img {
+    height: 160px;
+    width: 120px;
     margin: 1px;
 }
 /*------------BUTTONS -------------*/

@@ -32,7 +32,7 @@ function init(){
   cards = [];
   hands = getNewShuffledDeck();
   // dealCards();
-  render();
+  
 }
 init();
 function render() {
@@ -54,22 +54,30 @@ function hideButton() {
 
 
 function botonHit() {
-  playerCards.push(hands.pop()); 
+  
   let dealerCardsSum = 0;
   let playerCardsSum = 0;
+
   dealerCards.forEach(card => dealerCardsSum += card.value); 
   playerCards.forEach(card => playerCardsSum += card.value);
-  if (dealerCardsSum < 16) { 
+
+ if (playerCardsSum < 21) {
+  playerCards.push(hands.pop());
+
+} else if (playerCardsSum > 21) {
+  playerCardsSum += playerCards[playerCards.length - 1].value;
+  console.log(playerCardsSum, 'NOOOO :(! player above 21');
+} 
+  while (dealerCardsSum < 16) { 
     dealerCards.push(hands.pop());
     dealerCardsSum += dealerCards[dealerCards.length - 1].value;
-  } else if (playerCardsSum > 21) {
-    
-    playerCardsSum += playerCards[playerCards.length - 1].value;
-    console.log('NOOOO :(!')
+} 
+  if (dealerCardsSum > 21) {
+    console.log('Dealer loses!');
   }
+
   render();
 }
-
 
 
 
