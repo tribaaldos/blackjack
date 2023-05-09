@@ -11,13 +11,17 @@ let cards;
 let hands;
 
 /*----- cached element references -----*/
-const dealerCardsDiv = document.querySelector('.dealer-cards');
-const playerCardsDiv = document.querySelector('.player-cards')
-const betButton = document.querySelector('#bet')
+const dealer_cards_div = document.querySelector('.dealer-cards');
+const player_cards_div = document.querySelector('.player-cards')
+const bet_button = document.querySelector('#bet')
+const hide_button = document.getElementById('bet')
+
 /*----- event listeners -----*/
 // document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
 document.querySelector('#bet').addEventListener('click', dealCards);
 document.querySelector('#hit').addEventListener('click', botonHit);
+document.querySelector('#bet').addEventListener('click', hideButton);
+
 //------remove Event Listeners
 
 
@@ -27,13 +31,13 @@ function init(){
   dealerCards = [];
   cards = [];
   hands = getNewShuffledDeck();
-  dealCards();
+  // dealCards();
   render();
 }
 init();
 function render() {
-  dealerCardsDiv.innerHTML = dealerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
-  playerCardsDiv.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
+  dealer_cards_div.innerHTML = dealerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
+  player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
 }
 
 function dealCards() {
@@ -44,14 +48,27 @@ function dealCards() {
   render();
 };  
 
-function botonHit() {
-  
-dealerCards.push(hands.pop());
-
-render();
+function hideButton() {
+  hide_button.style.display = "none";
 }
 
 
+function botonHit() {
+  playerCards.push(hands.pop()); 
+  let dealerCardsSum = 0;
+  let playerCardsSum = 0;
+  dealerCards.forEach(card => dealerCardsSum += card.value); 
+  playerCards.forEach(card => playerCardsSum += card.value);
+  if (dealerCardsSum < 16) { 
+    dealerCards.push(hands.pop());
+    dealerCardsSum += dealerCards[dealerCards.length - 1].value;
+  } else if (playerCardsSum > 21) {
+    
+    playerCardsSum += playerCards[playerCards.length - 1].value;
+    console.log('NOOOO :(!')
+  }
+  render();
+}
 
 
 
