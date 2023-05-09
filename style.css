@@ -4,6 +4,10 @@ body {
     background: radial-gradient(green, black);
     background-size: cover;
     display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vmax;
+    width: 100vmax;
 } 
 /* -------CARDS LIBRARY ------- */
 .card-container {
@@ -15,15 +19,15 @@ body {
   
 }
 .dealer-cards {
-    background-color: grey; 
+    /* background-color: grey;  */
     text-align: center;
     
 }
 .player-cards {
-    background-color: blue;
+    /* background-color: blue; */
 }
 button {
-    display: block;
+    display: inline;
     margin: 10px auto;
     padding: 10px;
     font-size: 16px;
@@ -56,7 +60,24 @@ h1 {
     width: 120px;
     margin: 1px;
 }
+.bank {
+    color: white;
+    font-size: 50px;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 75px;
+    margin-bottom: 20px;
+    border: 10px solid black;
+    background-color: lightgray;
+    text-align: center;
+}
 /*------------BUTTONS -------------*/
+ #bet {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+ }
  #hit {
     width: 100px;
     height: 50px;
@@ -80,41 +101,47 @@ h1 {
 }
 
 
-.moneda1{
+.white{
     border-radius: 160%;
     height: 5vmin;  
     margin-bottom: 100px; 
+    background-color: white;
     
 }
-.moneda2{
+.red{
     border-radius: 160%;
     height: 5vmin;   
     margin-bottom: 80px; 
+    background-color: red;
 }
-.moneda3{
+.green{
     border-radius: 160%;
     height: 5vmin;   
     margin-bottom: 60px; 
+    background-color: green;
 }
-.moneda4{
+.black{
     border-radius: 160%;
     height: 5vmin;   
     margin-bottom: 40px; 
+    background-color: black;
 }
-.moneda5{
+.purple{
     border-radius: 160%;
     height: 5vmin;   
     margin-bottom: 20px; 
+    background-color: purple;
 }
-.moneda6{
+.orange{
     border-radius: 160%;
     height: 5vmin;   
     margin-bottom: 0px; 
+    background-color: orange;
 }
 .monedas{
-    text-align: left;
+    text-align: center;
     padding-bottom: 100px;
-    background-color: green;
+    /* background-color: green; */
 }
 #buttons 
 #hit {
