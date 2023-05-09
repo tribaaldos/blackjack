@@ -1,59 +1,54 @@
 /*----- constants -----*/
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
-const playerCards = [];
-const dealerCards = [];
-const cards = [];
 // Build an 'original' deck of 'card' objects used to create shuffled decks
 const originalDeck = buildOriginalDeck();
 
 /*----- app's state (variables) -----*/
+let playerCards;
+let dealerCards;
+let cards;
+let hands;
 
 /*----- cached element references -----*/
 const dealerCardsDiv = document.querySelector('.dealer-cards');
 const playerCardsDiv = document.querySelector('.player-cards')
+const betButton = document.querySelector('#bet')
 /*----- event listeners -----*/
 // document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
 document.querySelector('#bet').addEventListener('click', dealCards);
 document.querySelector('#hit').addEventListener('click', botonHit);
+//------remove Event Listeners
+
 
 /*----- functions -----*/
 function init(){
-  
+  playerCards = [];
+  dealerCards = [];
+  cards = [];
+  hands = getNewShuffledDeck();
+  dealCards();
   render();
 }
+init();
+function render() {
+  dealerCardsDiv.innerHTML = dealerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
+  playerCardsDiv.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
+}
 
-// function dealCards() {
-//   const hands = getNewShuffledDeck();
-//   const cards = [];
-//   for (let i = 0; i < 2; i++) {
-//     cards.push(hands.pop());
-//   }
-//   dealerCardsDiv.innerHTML = cards.map(card => `<div class="card ${card.face}"></div>`).join('');
-//   playerCardsDiv.innerHTML = cards.map(card => `<div class="card ${card.face}"></div>`).join('');
-//   console.log(dealerCardsDiv)
-//   };
-  
 function dealCards() {
-  const hands = getNewShuffledDeck();
-  dealerCards.push(hands.pop()), dealerCards.push(hands.pop());
-  playerCards.push(hands.pop()), playerCards.push(hands.pop());
-  dealCards
-  dealerCardsDiv.innerHTML = dealerCards.map(card => `<div class="card ${card.face}"></div>`).join('');
-  playerCardsDiv.innerHTML = playerCards.map(card => `<div class="card ${card.face}"></div>`).join('');
-  console.log('Dealer cards:', dealerCards);
-  console.log('Player cards:', playerCards);
-};
-// for (let i = 0; i < 4; i++) {
-//   if (i % 2 === 0) {
-//     dealerCards.push(hands.pop());
-//   } else {
-//     playerCards.push(hands.pop());
-//   }
 
+  dealerCards.push(hands.pop(), hands.pop());
+  playerCards.push(hands.pop(), hands.pop()); 
+  
+  render();
+};  
 
 function botonHit() {
+  
+dealerCards.push(hands.pop());
 
+render();
 }
 
 
@@ -62,7 +57,7 @@ function botonHit() {
 
 
 
-
+//CSS--LIBRARY--
 
 function getNewShuffledDeck() {
   // Create a copy of the originalDeck (leave originalDeck untouched!)
