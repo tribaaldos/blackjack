@@ -46,14 +46,25 @@ function init(){
 }
 init();
 function render() {
-  //show cards
-  dealer_cards_div.innerHTML = dealerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
-  player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
-  // show number of the value of all the cards
-  //number of player cards
+  // Show dealer cards
+  dealer_cards_div.innerHTML = dealerCards.map((card, index) => {
+    if (index === 0) {
+      // Hide the first card of the dealer
+      return '<div class="card back"></div>';
+    } else {
+      return `<img class="card ${card.face}"></div>`;
+    }
+  }).join('');
 
+  // Show number of dealer cards
+  if (dealerCards.length > 0) {
+    number_dealer.innerHTML = dealerCardsSum - dealerCards[0].value;
+  }
+
+  // Show player cards
   number_player.innerHTML = playerCardsSum;
-  number_dealer.innerHTML = dealerCardsSum;
+  player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
+
   checkWinner();
 }
 
@@ -66,9 +77,6 @@ function dealCards() {
   render();
 };  
 
-function hideButton() {
-  hide_button.style.display = "none";
-}
 
 function botonHit() {
   
@@ -80,13 +88,19 @@ function botonHit() {
   render();
 }
 function handleStand() {
+  
 
-    while (dealerCardsSum < 17) {
-      dealerCards.push(hands.pop());
-      dealerCardsSum = 0; // Reset the sum to recalculate it correctly
-      dealerCards.forEach(card => dealerCardsSum += card.value); // Recalculate the sum
-    }
+  // Continue drawing cards for the dealer until the sum is 17 or higher
+  while (dealerCardsSum < 17) {
+    dealerCards.push(hands.pop());
+    dealerCardsSum = 0; // Reset the sum to recalculate it correctly
+    dealerCards.forEach(card => dealerCardsSum += card.value); // Recalculate the sum
+  }
+  
   render();
+}
+function hideButton() {
+  hide_button.style.display = "none";
 }
 function checkWinner() {
   //player
@@ -147,3 +161,23 @@ function buildOriginalDeck() {
   });
   return deck;
 }
+
+
+//GUIDE LINE
+            
+// 1. Create a deck of cards with values from 2-10, J, Q, K, A
+// 2. Shuffle the deck of cards
+// 3. Deal two cards to the player and two cards to the dealer
+// 4. Determine the total value of the player's cards and display it
+// 5. Determine the total value of the dealer's cards and display one card face up
+// 6. Allow the player to hit or stand
+// 7. If the player chooses to hit, deal another card and add its value to the player's total
+// 8. If the player chooses to stand, end their turn
+// 9. If the player's total exceeds 21, they bust and lose the game
+// 10. If the player's total is 21, they win the game
+// 11. If the player stands, the dealer's turn begins
+// 12. The dealer hits until their total is at least 17
+// 13. If the dealer's total exceeds 21, they bust and the player wins
+// 14. If the dealer's total is greater than the player's total without exceeding 21, the dealer wins
+// 15. If the dealer's total is less than or equal to the player's total without exceeding 21, the player wins
+// 16. Allow the player to play again or quit the game
