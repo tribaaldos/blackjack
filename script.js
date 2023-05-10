@@ -1,8 +1,8 @@
 /*----- constants -----*/
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
-const dealerMessages = ['Dealer wins', 'Dealer above 21, lose', 'Tie', 'Blackjack']
-const playerMessages = ['Player wins', 'Player above 21, lose', 'Tie', 'Blackjack']
+const dealerMessages = ['Dealer wins', 'Dealer above 21, YOU WIN!', 'Tie', 'Blackjack']
+const playerMessages = ['Player wins', 'Player above 21, DEALERS WINS', 'Tie', 'Blackjack']
 // Build an 'original' deck of 'card' objects used to create shuffled decks
 const originalDeck = buildOriginalDeck();
 
@@ -22,6 +22,7 @@ const number_dealer = document.querySelector('.number-dealer')
 const bet_button = document.querySelector('#bet');
 const hide_button = document.getElementById('bet');
 const p = document.querySelector('.log');
+const bank = document.querySelector('.bank');
 
 /*----- event listeners -----*/
 // document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
@@ -46,6 +47,7 @@ function init(){
   // dealCards();
   document.querySelector('#stay').style.visibility = 'hidden';
   document.querySelector('#hit').style.visibility = 'hidden';
+  bank.innerHTML = 1000;
 }
 init();
 function render() {
@@ -68,14 +70,14 @@ function render() {
   // dealer cards but number
   if (dealerCards.length > 0) {
     if (stay) number_dealer.innerHTML = dealerCardsSum
-    else number_dealer.innerHTML = dealerCardsSum - dealerCards[0].value;
+    else number_dealer.innerHTML = dealerCards[1].value;
   }
 
   // player cards number
   number_player.innerHTML = playerCardsSum;
   player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
 
-  checkWinner();
+  
 }
 
 function dealCards() {
@@ -83,8 +85,9 @@ function dealCards() {
   dealerCards.push(hands.pop(), hands.pop());
   playerCards.push(hands.pop(), hands.pop()); 
   playerCards.forEach(card => playerCardsSum += card.value);
-  dealerCards.forEach(card => dealerCardsSum += card.value);
+  // dealerCards.forEach(card => dealerCardsSum += card.value);
   render();
+  checkforBlackjack();
 };  
 
 
@@ -99,12 +102,14 @@ function botonHit() {
   playerCards.forEach(card => playerCardsSum += card.value);
   render();
   // checkLoser();
+  checkLoser();
 }
 function handleStand() {
 
   // const hiddenCard = dealer_cards_div.querySelector('.card.back');
   // hiddenCard.classList.remove('back');
   stay = true
+  document.querySelector('#hit').disabled = true;
   while (dealerCardsSum < 17) {
     dealerCards.push(hands.pop());
     dealerCardsSum = 0; 
@@ -118,22 +123,37 @@ function hideButton() {
   document.querySelector('#stay').style.visibility = 'visible';
   document.querySelector('#hit').style.visibility = 'visible';
 }
+function checkLoser() {
+  if (playerCardsSum > 21) {
+    p.innerHTML = playerMessages[1];
+  }
+}
+function checkforBlackjack(){
+  let sum = dealerCards.forEach(card => dealerCardsSum += card.value);
+  if (playerCardsSum === 21) {
+    p.innerHTML = 'Player blackjack';
+  } 
+  else if (sum === 21) {
+    p.innerHTML = 'Dealer Blackjack'
+  }
+}
 function checkWinner() {
   //player
-  if (playerCardsSum === 21) {
-    p.innerHTML = playerMessages[3]
-  } else if (playerCardsSum > 21) {
+ 
+  if (playerCardsSum > 21) {
     p.innerHTML = playerMessages[1]
   } else if (playerCardsSum > dealerCardsSum) {
     p.innerHTML = playerMessages[0];
   }
   //dealer
-  else if (dealerCardsSum === 21) {
-    p.innerHTML = dealerMessages[3];
-  } else if (dealerCardsSum > 21) {
+  
+    else if (dealerCardsSum > 21) {
     p.innerHTML = dealerMessages[1];
   } else if (dealerCardsSum > playerCardsSum) {
     p.innerHTML = dealerMessages[0];
+  } else if (dealerCardsSum === playerCardsSum) {
+      p.innerHTML = 'PUSH'
+    
   } else {
     dealerMessages[2];
   }
