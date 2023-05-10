@@ -13,7 +13,7 @@ let cards;
 let hands;
 let playerCardsSum;
 let dealerCardsSum;
-
+let stay;
 /*----- cached element references -----*/
 const dealer_cards_div = document.querySelector('.dealer-cards');
 const player_cards_div = document.querySelector('.player-cards');
@@ -29,6 +29,7 @@ document.querySelector('#bet').addEventListener('click', dealCards);
 document.querySelector('#hit').addEventListener('click', botonHit);
 document.querySelector('#stay').addEventListener('click', handleStand);
 document.querySelector('#bet').addEventListener('click', hideButton);
+document.querySelector('#bet').addEventListener('click', hideButton);
 
 //------remove Event Listeners
 
@@ -41,16 +42,24 @@ function init(){
   hands = getNewShuffledDeck();
   playerCardsSum = 0;
   dealerCardsSum = 0;
+  stay = false;
   // dealCards();
-  
+  document.querySelector('#stay').style.visibility = 'hidden';
+  document.querySelector('#hit').style.visibility = 'hidden';
 }
 init();
 function render() {
   //show dealer cards
   dealer_cards_div.innerHTML = dealerCards.map((card, index) => {
     if (index === 0) {
+      if (stay) { 
+        return `<img class="card ${card.face}"></div>`
+        
+      } else {
+        
+        return `<div class="card back"></div>`;
+      }
       // hidding the first card of the dealer
-      return `<div class="card back"></div>`;
     } else {
       return `<img class="card ${card.face}"></div>`;
     }
@@ -58,7 +67,8 @@ function render() {
 
   // dealer cards but number
   if (dealerCards.length > 0) {
-    number_dealer.innerHTML = dealerCardsSum - dealerCards[0].value;
+    if (stay) number_dealer.innerHTML = dealerCardsSum
+    else number_dealer.innerHTML = dealerCardsSum - dealerCards[0].value;
   }
 
   // player cards number
@@ -82,26 +92,31 @@ function botonHit() {
   
   if (playerCardsSum < 21) {
     playerCards.push(hands.pop());  
-  } 
+  } else if (playerCardsSum === 21) {
+    document.querySelector('hit').style.visibilty = 'hidden';
+  }
   playerCardsSum = 0; 
   playerCards.forEach(card => playerCardsSum += card.value);
   render();
+  // checkLoser();
 }
 function handleStand() {
 
-  const hiddenCard = dealer_cards_div.querySelector('.card.back');
-  hiddenCard.classList.remove('back');
-
+  // const hiddenCard = dealer_cards_div.querySelector('.card.back');
+  // hiddenCard.classList.remove('back');
+  stay = true
   while (dealerCardsSum < 17) {
     dealerCards.push(hands.pop());
     dealerCardsSum = 0; 
     dealerCards.forEach(card => dealerCardsSum += card.value);
   }
-  
+  checkWinner();
   render();
 }
 function hideButton() {
   hide_button.style.display = "none";
+  document.querySelector('#stay').style.visibility = 'visible';
+  document.querySelector('#hit').style.visibility = 'visible';
 }
 function checkWinner() {
   //player
