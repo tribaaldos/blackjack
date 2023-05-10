@@ -46,22 +46,22 @@ function init(){
 }
 init();
 function render() {
-  // Show dealer cards
+  //show dealer cards
   dealer_cards_div.innerHTML = dealerCards.map((card, index) => {
     if (index === 0) {
-      // Hide the first card of the dealer
-      return '<div class="card back"></div>';
+      // hidding the first card of the dealer
+      return `<div class="card back"></div>`;
     } else {
       return `<img class="card ${card.face}"></div>`;
     }
   }).join('');
 
-  // Show number of dealer cards
+  // dealer cards but number
   if (dealerCards.length > 0) {
     number_dealer.innerHTML = dealerCardsSum - dealerCards[0].value;
   }
 
-  // Show player cards
+  // player cards number
   number_player.innerHTML = playerCardsSum;
   player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
 
@@ -88,13 +88,14 @@ function botonHit() {
   render();
 }
 function handleStand() {
-  
 
-  // Continue drawing cards for the dealer until the sum is 17 or higher
+  const hiddenCard = dealer_cards_div.querySelector('.card.back');
+  hiddenCard.classList.remove('back');
+
   while (dealerCardsSum < 17) {
     dealerCards.push(hands.pop());
-    dealerCardsSum = 0; // Reset the sum to recalculate it correctly
-    dealerCards.forEach(card => dealerCardsSum += card.value); // Recalculate the sum
+    dealerCardsSum = 0; 
+    dealerCards.forEach(card => dealerCardsSum += card.value);
   }
   
   render();
