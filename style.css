@@ -6,8 +6,11 @@ body {
     display: grid;
     justify-content: center;
     align-items: center;
-    height: 100vmax;
-    width: 100vmax;
+    background-image: url(blackjackboard2.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: absolute;
+    color: white;
 } 
 /* -------CARDS LIBRARY ------- */
 .card-container {
@@ -103,38 +106,48 @@ h1 {
 
 .white{
     border-radius: 160%;
-    height: 5vmin;  
+    height: 10vmin;
+    width: 10vmin;
     margin-bottom: 100px; 
     background-color: white;
     
 }
 .red{
-    border-radius: 160%;
-    height: 5vmin;   
+    border-radius: 50%;
+    border-color: 15vmin black;
+    
+    height: 10vmin;
+    width: 10vmin;   
     margin-bottom: 80px; 
     background-color: red;
+    border-style: dashed;
+    
 }
 .green{
     border-radius: 160%;
-    height: 5vmin;   
+    height: 10vmin;
+    width: 10vmin;   
     margin-bottom: 60px; 
     background-color: green;
 }
 .black{
     border-radius: 160%;
-    height: 5vmin;   
+    height: 10vmin;
+    width: 10vmin;  
     margin-bottom: 40px; 
     background-color: black;
 }
 .purple{
     border-radius: 160%;
-    height: 5vmin;   
+    height: 10vmin;
+    width: 10vmin;  
     margin-bottom: 20px; 
     background-color: purple;
 }
 .orange{
     border-radius: 160%;
-    height: 5vmin;   
+    height: 10vmin;
+    width: 10vmin;   
     margin-bottom: 0px; 
     background-color: orange;
 }

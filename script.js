@@ -1,8 +1,8 @@
 /*----- constants -----*/
 const suits = ['s', 'c', 'd', 'h'];
 const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A'];
-const dealerMessages = ['Player wins', 'Dealer wins', 'Player above 21, lose', 'Dealer above 21, lose', 'Tie', 'Blackjack']
-const playerMessages = ['Player wins', 'Player above 21, lose', 'Player loses', 'Tie', 'Blackjack']
+const dealerMessages = ['Dealer wins', 'Dealer above 21, lose', 'Tie', 'Blackjack']
+const playerMessages = ['Player wins', 'Player above 21, lose', 'Tie', 'Blackjack']
 // Build an 'original' deck of 'card' objects used to create shuffled decks
 const originalDeck = buildOriginalDeck();
 
@@ -11,8 +11,8 @@ let playerCards;
 let dealerCards;
 let cards;
 let hands;
-let playerCardsSum = 0;
-let dealerCardsSum = 0;
+let playerCardsSum;
+let dealerCardsSum;
 
 /*----- cached element references -----*/
 const dealer_cards_div = document.querySelector('.dealer-cards');
@@ -21,6 +21,7 @@ const number_player = document.querySelector('.number-player')
 const number_dealer = document.querySelector('.number-dealer')
 const bet_button = document.querySelector('#bet');
 const hide_button = document.getElementById('bet');
+const p = document.querySelector('.log');
 
 /*----- event listeners -----*/
 // document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
@@ -38,6 +39,8 @@ function init(){
   dealerCards = [];
   cards = [];
   hands = getNewShuffledDeck();
+  playerCardsSum = 0;
+  dealerCardsSum = 0;
   // dealCards();
   
 }
@@ -48,22 +51,18 @@ function render() {
   player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
   // show number of the value of all the cards
   //number of player cards
-  playerCards.forEach(card => playerCardsSum += card.value);
+
   number_player.innerHTML = playerCardsSum;
-  //number of dealer cards
-  dealerCards.forEach(card => dealerCardsSum += card.value);
   number_dealer.innerHTML = dealerCardsSum;
-
-
-  
-
+  checkWinner();
 }
 
 function dealCards() {
 
   dealerCards.push(hands.pop(), hands.pop());
   playerCards.push(hands.pop(), hands.pop()); 
-  
+  playerCards.forEach(card => playerCardsSum += card.value);
+  dealerCards.forEach(card => dealerCardsSum += card.value);
   render();
 };  
 
@@ -71,41 +70,44 @@ function hideButton() {
   hide_button.style.display = "none";
 }
 
-
 function botonHit() {
   
-  let playerCardsSum = 0;
-  
-  playerCards.forEach(card => playerCardsSum += card.value);
-  
   if (playerCardsSum < 21) {
-    playerCards.push(hands.pop());
-    
-  } else if (playerCardsSum > 21) {
-    playerCardsSum += playerCards[playerCards.length - 1].value;
-    console.log(playerCardsSum, playerMessages[1]);
+    playerCards.push(hands.pop());  
   } 
-  
+  playerCardsSum = 0; 
+  playerCards.forEach(card => playerCardsSum += card.value);
   render();
 }
 function handleStand() {
 
-  let dealerCardsSum = 0;
-  dealerCards.forEach(card => dealerCardsSum += card.value); 
-
-  if (dealerCardsSum === 21) {
-    console.log('Dealer has 21!');
-  } else {
-
-    while (dealerCardsSum < 17) { 
+    while (dealerCardsSum < 17) {
       dealerCards.push(hands.pop());
-      dealerCardsSum += dealerCards[dealerCards.length - 1].value;
-    } 
-    if (dealerCardsSum > 21) {
-      console.log('Dealer busts!');
+      dealerCardsSum = 0; // Reset the sum to recalculate it correctly
+      dealerCards.forEach(card => dealerCardsSum += card.value); // Recalculate the sum
     }
-  }
   render();
+}
+function checkWinner() {
+  //player
+  if (playerCardsSum === 21) {
+    p.innerHTML = playerMessages[3]
+  } else if (playerCardsSum > 21) {
+    p.innerHTML = playerMessages[1]
+  } else if (playerCardsSum > dealerCardsSum) {
+    p.innerHTML = playerMessages[0];
+  }
+  //dealer
+  else if (dealerCardsSum === 21) {
+    p.innerHTML = dealerMessages[3];
+  } else if (dealerCardsSum > 21) {
+    p.innerHTML = dealerMessages[1];
+  } else if (dealerCardsSum > playerCardsSum) {
+    p.innerHTML = dealerMessages[0];
+  } else {
+    dealerMessages[2];
+  }
+
 }
 
 
