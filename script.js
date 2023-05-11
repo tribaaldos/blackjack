@@ -14,6 +14,8 @@ let hands;
 let playerCardsSum;
 let dealerCardsSum;
 let stay;
+let bank;
+let bet;
 /*----- cached element references -----*/
 const dealer_cards_div = document.querySelector('.dealer-cards');
 const player_cards_div = document.querySelector('.player-cards');
@@ -22,16 +24,16 @@ const number_dealer = document.querySelector('.number-dealer')
 const bet_button = document.querySelector('#bet');
 const hide_button = document.getElementById('bet');
 const p = document.querySelector('.log');
-const bank = document.querySelector('.bank');
+const bankEl = document.querySelector('.banklog');
+const betEl = document.querySelector('.betlog');
 
 /*----- event listeners -----*/
 // document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
-document.querySelector('#bet').addEventListener('click', dealCards);
+document.querySelector('#bet').addEventListener('click', handleBet);
 document.querySelector('#hit').addEventListener('click', botonHit);
 document.querySelector('#stay').addEventListener('click', handleStand);
 document.querySelector('#bet').addEventListener('click', hideButton);
-document.querySelector('#bet').addEventListener('click', hideButton);
-
+document.querySelector('.monedas').addEventListener('click', handleAllChips);
 //------remove Event Listeners
 
 
@@ -44,10 +46,12 @@ function init(){
   playerCardsSum = 0;
   dealerCardsSum = 0;
   stay = false;
-  // dealCards();
+  
   document.querySelector('#stay').style.visibility = 'hidden';
   document.querySelector('#hit').style.visibility = 'hidden';
-  bank.innerHTML = 1000;
+  bank = 1000;
+  bet = 0;
+  render();
 }
 init();
 function render() {
@@ -55,37 +59,41 @@ function render() {
   dealer_cards_div.innerHTML = dealerCards.map((card, index) => {
     if (index === 0) {
       if (stay) { 
-        return `<img class="card ${card.face}"></div>`
-        
-      } else {
-        
+        return `<img class="card ${card.face}"></div>`     
+      } else { 
         return `<div class="card back"></div>`;
       }
-      // hidding the first card of the dealer
     } else {
       return `<img class="card ${card.face}"></div>`;
     }
   }).join('');
-
+  
   // dealer cards but number
   if (dealerCards.length > 0) {
     if (stay) number_dealer.innerHTML = dealerCardsSum
     else number_dealer.innerHTML = dealerCards[1].value;
   }
-
+  
   // player cards number
   number_player.innerHTML = playerCardsSum;
   player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
-
+  bankEl.innerHTML = bank;
+  betEl.innerHTML = bet;
   
 }
-
-function dealCards() {
+function handleAllChips(evt) {
+  const amt = parseInt(evt.target.innerText);
+  if (amt > bank) return
+  bank -= amt;
+  bet += amt;
+  render();
+}
+function handleBet() {
 
   dealerCards.push(hands.pop(), hands.pop());
   playerCards.push(hands.pop(), hands.pop()); 
-  playerCards.forEach(card => playerCardsSum += card.value);
-  // dealerCards.forEach(card => dealerCardsSum += card.value);
+  playerCardsSum = getHandTotal(playerCards);
+  dealerCardsSum = getHandTotal(dealerCards);
   render();
   checkforBlackjack();
 };  
@@ -98,25 +106,33 @@ function botonHit() {
   } else if (playerCardsSum === 21) {
     document.querySelector('hit').style.visibilty = 'hidden';
   }
-  playerCardsSum = 0; 
-  playerCards.forEach(card => playerCardsSum += card.value);
+  playerCardsSum = getHandTotal(playerCards); 
   render();
-  // checkLoser();
   checkLoser();
 }
 function handleStand() {
-
-  // const hiddenCard = dealer_cards_div.querySelector('.card.back');
-  // hiddenCard.classList.remove('back');
   stay = true
   document.querySelector('#hit').disabled = true;
   while (dealerCardsSum < 17) {
     dealerCards.push(hands.pop());
-    dealerCardsSum = 0; 
-    dealerCards.forEach(card => dealerCardsSum += card.value);
+    dealerCardsSum = getHandTotal(dealerCards); 
   }
   checkWinner();
   render();
+}
+
+function getHandTotal(hand) {
+  let total = 0;
+  let aces = 0;
+  hand.forEach(function(card) {
+    total += card.value;
+    if (card.value === 11) aces++;
+  });
+  while (total > 21 && aces > 0) {
+    total -= 10;
+    aces--;
+  } 
+  return total;
 }
 function hideButton() {
   hide_button.style.display = "none";
@@ -129,11 +145,11 @@ function checkLoser() {
   }
 }
 function checkforBlackjack(){
-  let sum = dealerCards.forEach(card => dealerCardsSum += card.value);
+  dealerCardsSum = getHandTotal(dealerCards);
   if (playerCardsSum === 21) {
     p.innerHTML = 'Player blackjack';
   } 
-  else if (sum === 21) {
+  else if (dealerCardsSum === 21) {
     p.innerHTML = 'Dealer Blackjack'
   }
 }
@@ -191,7 +207,7 @@ function buildOriginalDeck() {
         // The 'face' property maps to the library's CSS classes for cards
         face: `${suit}${rank}`,
         // Setting the 'value' property for game of blackjack, not war
-        value: Number(rank) || (rank === 'A' ? 11 && 1 : 10)
+        value: Number(rank) || (rank === 'A' ? 11 : 10)
       });
     });
   });
