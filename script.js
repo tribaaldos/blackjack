@@ -51,7 +51,7 @@ function init(){
   document.querySelector('#hit').style.visibility = 'hidden';
   bank = 1000;
   bet = 0;
-  render();
+  // render();
 }
 init();
 function render() {
@@ -96,6 +96,8 @@ function handleBet() {
   dealerCardsSum = getHandTotal(dealerCards);
   render();
   checkforBlackjack();
+  // dealer-cards.innerHTML = ` <img class="card back">
+  // <img class="card back">`;
 };  
 
 
@@ -117,6 +119,9 @@ function handleStand() {
     dealerCards.push(hands.pop());
     dealerCardsSum = getHandTotal(dealerCards); 
   }
+  document.querySelector('#stay').style.visibility = 'hidden';
+  document.querySelector('#hit').style.visibility = 'hidden';
+  document.querySelector('#bet').style.visibility = 'visible';
   checkWinner();
   render();
 }
@@ -135,7 +140,8 @@ function getHandTotal(hand) {
   return total;
 }
 function hideButton() {
-  hide_button.style.display = "none";
+  // hide_button.style.display = "none";
+  document.querySelector('#bet').style.visibility = 'hidden';
   document.querySelector('#stay').style.visibility = 'visible';
   document.querySelector('#hit').style.visibility = 'visible';
 }
@@ -154,27 +160,30 @@ function checkforBlackjack(){
   }
 }
 function checkWinner() {
-  //player
- 
+  // player
   if (playerCardsSum > 21) {
-    p.innerHTML = playerMessages[1]
+    p.innerHTML = playerMessages[1];
   } else if (playerCardsSum > dealerCardsSum) {
     p.innerHTML = playerMessages[0];
+    bank += bet * 2; 
   }
-  //dealer
-  
-    else if (dealerCardsSum > 21) {
+  // dealer
+  else if (dealerCardsSum > 21) {
     p.innerHTML = dealerMessages[1];
+    bank += bet *2;
   } else if (dealerCardsSum > playerCardsSum) {
     p.innerHTML = dealerMessages[0];
-  } else if (dealerCardsSum === playerCardsSum) {
-      p.innerHTML = 'PUSH'
     
+  } else if (dealerCardsSum === playerCardsSum) {
+    p.innerHTML = 'PUSH';
+    bank += bet; 
   } else {
-    dealerMessages[2];
+    p.innerHTML = dealerMessages[2];
+  }
+  bet = 0; 
+  render(); 
   }
 
-}
 
 
 
