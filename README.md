@@ -21,5 +21,12 @@ You can choose to play again to win more money and do your bets!
 This game is made with
 ·HTML
 ·CSS
+·JS
+
+MY NEXT STEPS
+I want to edit the buttons, put some sounds for the cards, cash and buttons.
+Make the game more aesthetic.
+Try to show the dealer cards 1 by 1.
+Add a blackjack board that i have on gallery and be able to set it up correctly with the cards, coins and everything align.
 
 JS![Screenshot 2023-05-12 at 09 32 24](https://github.com/tribaaldos/blackjack/assets/14943193/12756af7-53f9-4fc9-9135-b6894fe028cd)
