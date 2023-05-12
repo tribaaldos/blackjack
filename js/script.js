@@ -14,26 +14,31 @@ let hands;
 let playerCardsSum;
 let dealerCardsSum;
 let stay;
-let bank;
+let bank = 1000;
 let bet;
+let winner;
 /*----- cached element references -----*/
 const dealer_cards_div = document.querySelector('.dealer-cards');
 const player_cards_div = document.querySelector('.player-cards');
 const number_player = document.querySelector('.number-player')
 const number_dealer = document.querySelector('.number-dealer')
 const bet_button = document.querySelector('#bet');
-const hide_button = document.getElementById('bet');
 const p = document.querySelector('.log');
 const bankEl = document.querySelector('.banklog');
 const betEl = document.querySelector('.betlog');
+const staybutton = document.querySelector('#stay');
+const hitbutton = document.querySelector('#hit');
+const replaybutton = document.querySelector('#replay');
 
 /*----- event listeners -----*/
 // document.querySelector('button').addEventListener('click', renderNewShuffledDeck);
 document.querySelector('#bet').addEventListener('click', handleBet);
-document.querySelector('#hit').addEventListener('click', botonHit);
-document.querySelector('#stay').addEventListener('click', handleStand);
+hitbutton.addEventListener('click', botonHit);
+staybutton.addEventListener('click', handleStand);
+
 document.querySelector('#bet').addEventListener('click', hideButton);
 document.querySelector('.monedas').addEventListener('click', handleAllChips);
+replaybutton.addEventListener('click', init);
 //------remove Event Listeners
 
 
@@ -46,28 +51,38 @@ function init(){
   playerCardsSum = 0;
   dealerCardsSum = 0;
   stay = false;
-  
-  document.querySelector('#stay').style.visibility = 'hidden';
-  document.querySelector('#hit').style.visibility = 'hidden';
-  bank = 1000;
+  winner = null;
   bet = 0;
-  // render();
+  render();
 }
 init();
 function render() {
-  //show dealer cards
-  dealer_cards_div.innerHTML = dealerCards.map((card, index) => {
-    if (index === 0) {
-      if (stay) { 
-        return `<img class="card ${card.face}"></div>`     
-      } else { 
-        return `<div class="card back"></div>`;
-      }
-    } else {
-      return `<img class="card ${card.face}"></div>`;
-    }
-  }).join('');
   
+  //show dealer cards
+  if (dealerCards.length > 0 && playerCards.length > 0) {
+
+    dealer_cards_div.innerHTML = dealerCards.map((card, index) => {
+      if (index === 0 ) {
+        if (stay) { 
+          return `<img class="card ${card.face}"></div>`     
+        } else { 
+          return `<div class="card back"></div>`;
+        }
+      } else {
+        return `<img class="card ${card.face}"></div>`;
+      }
+    }).join('');
+    player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
+    
+  } else {
+    dealer_cards_div.innerHTML = `<div class="card back"></div><div class="card back"></div>`
+    player_cards_div.innerHTML = `<div class="card back"></div><div class="card back"></div>`
+  } 
+
+  staybutton.style.visibility = winner ? 'hidden' : 'visible';
+  hitbutton.style.visibility = winner ? 'hidden' : 'visible';
+  replaybutton.style.visibility = winner ? 'visible' : 'hidden';
+  bet_button.style.visibility = winner ? 'hidden' : 'visible';
   // dealer cards but number
   if (dealerCards.length > 0) {
     if (stay) number_dealer.innerHTML = dealerCardsSum
@@ -76,7 +91,6 @@ function render() {
   
   // player cards number
   number_player.innerHTML = playerCardsSum;
-  player_cards_div.innerHTML = playerCards.map(card => `<img class="card ${card.face}"></div>`).join('');
   bankEl.innerHTML = bank;
   betEl.innerHTML = bet;
   
@@ -89,15 +103,15 @@ function handleAllChips(evt) {
   render();
 }
 function handleBet() {
-
+  playerCards = [];
+  dealerCards = [];
+  hands = getNewShuffledDeck();
   dealerCards.push(hands.pop(), hands.pop());
   playerCards.push(hands.pop(), hands.pop()); 
   playerCardsSum = getHandTotal(playerCards);
   dealerCardsSum = getHandTotal(dealerCards);
   render();
   checkforBlackjack();
-  // dealer-cards.innerHTML = ` <img class="card back">
-  // <img class="card back">`;
 };  
 
 
@@ -109,19 +123,17 @@ function botonHit() {
     document.querySelector('hit').style.visibilty = 'hidden';
   }
   playerCardsSum = getHandTotal(playerCards); 
+  bet_button.style.visibility = 'hidden';
   render();
   checkLoser();
 }
 function handleStand() {
   stay = true
-  document.querySelector('#hit').disabled = true;
   while (dealerCardsSum < 17) {
     dealerCards.push(hands.pop());
     dealerCardsSum = getHandTotal(dealerCards); 
   }
-  document.querySelector('#stay').style.visibility = 'hidden';
-  document.querySelector('#hit').style.visibility = 'hidden';
-  document.querySelector('#bet').style.visibility = 'visible';
+
   checkWinner();
   render();
 }
@@ -137,7 +149,8 @@ function getHandTotal(hand) {
     total -= 10;
     aces--;
   } 
-  return total;
+  render();
+  return total; 
 }
 function hideButton() {
   // hide_button.style.display = "none";
@@ -148,7 +161,7 @@ function hideButton() {
 function checkLoser() {
   if (playerCardsSum > 21) {
     p.innerHTML = playerMessages[1];
-  }
+  } render();
 }
 function checkforBlackjack(){
   dealerCardsSum = getHandTotal(dealerCards);
@@ -157,13 +170,15 @@ function checkforBlackjack(){
   } 
   else if (dealerCardsSum === 21) {
     p.innerHTML = 'Dealer Blackjack'
-  }
+  } render();
 }
 function checkWinner() {
   // player
   if (playerCardsSum > 21) {
     p.innerHTML = playerMessages[1];
+    winner = true;
   } else if (playerCardsSum > dealerCardsSum) {
+    winner = true;
     p.innerHTML = playerMessages[0];
     bank += bet * 2; 
   }
@@ -171,13 +186,18 @@ function checkWinner() {
   else if (dealerCardsSum > 21) {
     p.innerHTML = dealerMessages[1];
     bank += bet *2;
+    winner = true;
   } else if (dealerCardsSum > playerCardsSum) {
     p.innerHTML = dealerMessages[0];
-    
+    winner = true;
+
   } else if (dealerCardsSum === playerCardsSum) {
     p.innerHTML = 'PUSH';
     bank += bet; 
+    winner = true;
+
   } else {
+    
     p.innerHTML = dealerMessages[2];
   }
   bet = 0; 

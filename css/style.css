@@ -125,14 +125,14 @@ h1 {
     width: 10vmin;
     margin-bottom: 100px; 
     /* background-color: white; */
-    background-image: url(monedas/gambling-chip-isolated-black-9364912.jpg);
+    background-image: url(/monedas/gambling-chip-isolated-black-9364912.jpg);
     background-size: cover;
     
 }
 .red{
     border-radius: 50%;
     border-color: 15vmin black;
-    background-image: url(monedas/red.jpeg);
+    background-image: url(/monedas/red.jpeg);
     background-size: cover;
     height: 10vmin;
     width: 10vmin;   
@@ -145,7 +145,7 @@ h1 {
     border-radius: 160%;
     height: 10vmin;
     width: 10vmin;   
-    background-image: url(monedas/green.webp);
+    background-image: url(/monedas/green.webp);
     background-size: cover;
     margin-bottom: 60px; 
     background-color: green;
@@ -154,7 +154,7 @@ h1 {
     border-radius: 160%;
     height: 10vmin;
     width: 10vmin;  
-    background-image: url(monedas/black.png);
+    background-image: url(/monedas/black.png);
     background-size: cover;
     margin-bottom: 40px; 
     background-color: black;
@@ -163,7 +163,7 @@ h1 {
     border-radius: 160%;
     height: 10vmin;
     width: 10vmin;  
-    background-image: url(monedas/green.jpeg);
+    background-image: url(/monedas/green.jpeg);
     background-size: cover;
     margin-bottom: 20px; 
     background-color: purple;
@@ -174,7 +174,7 @@ h1 {
     width: 10vmin;   
     margin-bottom: 0px; 
     background-color: orange;
-    background-image: url(monedas/orange.jpeg);
+    background-image: url(/monedas/orange.jpeg);
     background-size: cover;
 }
 .monedas{
