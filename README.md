@@ -1,6 +1,8 @@
 ￼
 BLACKJACK GAME
 
+JS![Screenshot 2023-05-12 at 09 32 24](https://github.com/tribaaldos/blackjack/assets/14943193/12756af7-53f9-4fc9-9135-b6894fe028cd)
+
 This is a simple command-line implementation of the blackjack game using javascript.
 
 Getting started.
@@ -22,4 +24,9 @@ This game is made with
 ·HTML
 ·CSS
 
-JS![Screenshot 2023-05-12 at 09 32 24](https://github.com/tribaaldos/blackjack/assets/14943193/12756af7-53f9-4fc9-9135-b6894fe028cd)
+
+
+NEXT STEPS 
+Editing the buttonts and some interface with css
+Add some sounds for the cards and buttons
+try to use a background blackjack board for the project and align it.
