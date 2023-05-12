@@ -244,21 +244,4 @@ function buildOriginalDeck() {
 }
 
 
-//GUIDE LINE
-            
-// 1. Create a deck of cards with values from 2-10, J, Q, K, A
-// 2. Shuffle the deck of cards
-// 3. Deal two cards to the player and two cards to the dealer
-// 4. Determine the total value of the player's cards and display it
-// 5. Determine the total value of the dealer's cards and display one card face up
-// 6. Allow the player to hit or stand
-// 7. If the player chooses to hit, deal another card and add its value to the player's total
-// 8. If the player chooses to stand, end their turn
-// 9. If the player's total exceeds 21, they bust and lose the game
-// 10. If the player's total is 21, they win the game
-// 11. If the player stands, the dealer's turn begins
-// 12. The dealer hits until their total is at least 17
-// 13. If the dealer's total exceeds 21, they bust and the player wins
-// 14. If the dealer's total is greater than the player's total without exceeding 21, the dealer wins
-// 15. If the dealer's total is less than or equal to the player's total without exceeding 21, the player wins
-// 16. Allow the player to play again or quit the game
+
