@@ -39,8 +39,6 @@ staybutton.addEventListener('click', handleStand);
 document.querySelector('#bet').addEventListener('click', hideButton);
 document.querySelector('.monedas').addEventListener('click', handleAllChips);
 replaybutton.addEventListener('click', init);
-//------remove Event Listeners
-
 
 /*----- functions -----*/
 function init(){
@@ -153,7 +151,6 @@ function getHandTotal(hand) {
   return total; 
 }
 function hideButton() {
-  // hide_button.style.display = "none";
   document.querySelector('#bet').style.visibility = 'hidden';
   document.querySelector('#stay').style.visibility = 'visible';
   document.querySelector('#hit').style.visibility = 'visible';
@@ -205,37 +202,25 @@ function checkWinner() {
   }
 
 
-
-
-
-
 //CSS--LIBRARY--
 
 function getNewShuffledDeck() {
-  // Create a copy of the originalDeck (leave originalDeck untouched!)
   const tempDeck = [...originalDeck];
   const newShuffledDeck = [];
   while (tempDeck.length) {
-    // Get a random index for a card still in the tempDeck
     const rndIdx = Math.floor(Math.random() * tempDeck.length);
-    // Note the [0] after splice - this is because splice always returns an array and we just want the card object in that array
     newShuffledDeck.push(tempDeck.splice(rndIdx, 1)[0]);
   }
   return newShuffledDeck;
 }
 
 
-
-
 function buildOriginalDeck() {
   const deck = [];
-  // Use nested forEach to generate card objects
   suits.forEach(function(suit) {
     ranks.forEach(function(rank) {
       deck.push({
-        // The 'face' property maps to the library's CSS classes for cards
         face: `${suit}${rank}`,
-        // Setting the 'value' property for game of blackjack, not war
         value: Number(rank) || (rank === 'A' ? 11 : 10)
       });
     });
